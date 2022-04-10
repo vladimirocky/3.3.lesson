@@ -32,7 +32,67 @@ person2.introduceMyself = function () {
 
 //person2.introduceMyself();
 let func = person2.introduceMyself;
-/**
+func.call(person1);
+func.apply(person1);
+let fBind = func.bind(person1);
+fBind();
+
+class Bartender extends Person{
+};
+const personBartender = new Bartender('Lexa',25,'bartender');
+func.call(personBartender);
+
+
+const User = {
+    name: 'Petya',
+    age: 24,
+    password: 'root123',
+    bithdate: '10.10.1990',
+    /**
+     * допишите сеттер
+     * новое значение свойства name
+     */
+
+    set changeName(newName) {
+        // ваш код тут
+        this.name = newName;
+       
+    },
+    get changeName(){
+        return 'Привет я ' + this.name + " мне " + this.age
+    }
+    
+};
+User.changeName = ' Alexus '; // меняем имя в сетторе 
+
+
+Object.defineProperty(User,'name',{
+    configurable : false
+  })
+  
+  let descrip = Object.getOwnPropertyDescriptor(User,'name');
+  console.log(descrip); // проверка
+  
+  Object.defineProperty(User,'password',{
+      writable:false
+  })
+let descripPassword = Object.getOwnPropertyDescriptor(User,'password');
+console.log(descripPassword);//поменялось свойство writable на false ,то есть сейчас password только для чтения изменить нельзя 
+
+Object.defineProperties(User,{
+   password:{ enumerable:false},
+   bithdate:{enumerable:false}
+  });
+  
+
+  
+  for (let key in User) {
+    console.log(Object.getOwnPropertyDescriptor(User, key));
+  } // в цикле не будут участвовать ключи "password" и "birthdate" так как свойство enumerable false и нельзя пройтись циклом то есть в цикле они уже не участвуют 
+
+
+
+  /**
  * Ваш код тут
  * func
  * person1
@@ -55,26 +115,14 @@ let func = person2.introduceMyself;
  */
 
 // ФЛАГИ ДЕСКРИПТОРОВ СВОЙСТВ, ГЕТТЕРЫ, СЕТТЕРЫ
-const User = {
-    name: 'Vasya',
-    age: 24,
-    password: 'root123',
-    bithdate: '10.10.1990',
-    /**
-     * допишите сеттер
-     * новое значение свойства name
-     */
-    set changeName(newName) {
-        // ваш код тут
-    }
+
     /**
      * реализуйте геттер
      * который выведет строку вида
      * "Привет я ..name.. Мне ..age.. лет! "
      * тоесть строка склееная из нескольких значений свойств объекта
      */
-}
-/**
+ /*
  * 1. Для свойства name
  * флаг configurable установите false
  *
@@ -94,6 +142,3 @@ const User = {
  * Что получилось? Почему?
  */
 // вывод свойств User
-for (let key in User) {
-    console.log(Object.getOwnPropertyDescriptor(User, key));
-}
