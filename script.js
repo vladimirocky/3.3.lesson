@@ -1,120 +1,144 @@
+// КОНТЕКСТ
 /**
- * ДОМАШНЕЕ ЗАДАНИЕ
- * Будем использовать setTimeout для имитации долгих вычислений
- *
- * В исходном коде некоторый "костяк" который нужно дописать ученику чтобы примеры заработали
- *
- * Предлагается взять какой-нибудь объект с которым надо будет работать
- * А потом имитировать шаги:
- * 1. Начало работы программы
- * 2. Получение данных (занимает како-то время)
- * 3. Обработка данны (занимет некоторе время)
- * 4. Отправка данных обратно (занимет некоторе время)
+ * ======== 1 ==========
+ * У нас есть класс Person и два его экземпляра
+ * для обного из них person2 определени метод introduceMyself
+ * мы скопировали этот метод в функцию func
+ * примените функцию func так, чтобы медот отработал в контексте person1
+ * попробуйте разные способы:
+ * 1. call
+ * 2. apply
+ * 3. bind
  */
 
-// какой-то объект который будем получать и менять асинхронно
-const data = {
-    name: "Some name",
-    modifyStatus: false,
-    numVal: 0
-}
-
-console.log("Start working..");
-console.log(data);
-
-/**
- * Тут попытка через setTimeout имитировать
- * 1. Получить данные
- * 2. Изменить данные
- */
-console.log("Start processing data..");
-
-setTimeout(() => {
-    // 1. modifyStatus переключить на true
-    // 2. изменить поле name
-    // 3. вывод data
-    /**
-     * Ваш код тут
-     */
-    console.log("End processing data!")
-}, 2000);
-
-console.log("Continue work main program..");
-
-/**
- *
- * Запрос и получение данных
- * Обработка
- * Отправка
- *
- */
-const promise = new Promise(function (resolve,reject) {
-    console.log('Request data...');
-    setTimeout(() => {
-        resolve(data);
-    },8000)
-})
-
-promise.then(respData => {
-        console.log('Response ...');
-        console.log(respData);
-        return respData;
+class Person {
+    constructor(name, age, profession) {
+        this.name = name;
+        this.age = age;
+        this.profession = profession;
     }
-).then( newData => {
-    console.log('Start modify data...');
-    setTimeout( () => {
-        newData.modifyStatus = true;
-        newData.name = 'New name';
-        console.log('Stop modify data');
-        console.log(newData);
-    },8000)
-}).catch(err => console.log("Error",err))
-    .finally( () => console.log("Finally!"))
+}
 
-/**
- * Чтобы продемонстрировать генератор
- * Создать генератор который выдает последовательность из случайных четных чисел
- *
- */
+const person1 = new Person('Petya', 23, 'bartender');
+const person2 = new Person('Lena', 35, 'painter');
 
-function* random(limit) {
-    let randomOddNumber = () => {
-         const result = Math.floor(Math.random() * limit);
-         return result % 2 === 0 ? result : randomOddNumber()
+person2.introduceMyself = function () {
+    console.log(
+        `Hello! Me name is ${this.name}.
+        I'm ${this.age} years old
+        I'm a ${this.profession}`
+    );
+}
+
+//person2.introduceMyself();
+let func = person2.introduceMyself;
+func.call(person1);
+func.apply(person1);
+let fBind = func.bind(person1);
+fBind();
+
+class Bartender extends Person{
+};
+const personBartender = new Bartender('Lexa',25,'bartender');
+func.call(personBartender);
+
+
+const User = {
+    name: 'Petya',
+    age: 24,
+    password: 'root123',
+    bithdate: '10.10.1990',
+    /**
+     * допишите сеттер
+     * новое значение свойства name
+     */
+
+    set changeName(newName) {
+        // ваш код тут
+        this.name = newName;
+
+    },
+    get changeName(){
+        return 'Привет я ' + this.name + " мне " + this.age
     }
-    // в бесконечном цикле возвращать реультат функции randomOddNumber в yield
-    /**
-     * Ваш код тут
-     */
-}
-const randomizer = random(100)
-console.log(randomizer.next().value)
-console.log(randomizer.next().value)
-console.log(randomizer.next().value)
+
+};
+User.changeName = ' Alexus '; // меняем имя в сетторе
+
+
+Object.defineProperty(User,'name',{
+    configurable : false
+  })
+
+  let descrip = Object.getOwnPropertyDescriptor(User,'name');
+  console.log(descrip); // проверка
+
+  Object.defineProperty(User,'password',{
+      writable:false
+  })
+let descripPassword = Object.getOwnPropertyDescriptor(User,'password');
+console.log(descripPassword);//поменялось свойство writable на false ,то есть сейчас password только для чтения изменить нельзя
+
+Object.defineProperties(User,{
+   password:{ enumerable:false},
+   bithdate:{enumerable:false}
+  });
+
+
+
+  for (let key in User) {
+    console.log(Object.getOwnPropertyDescriptor(User, key));
+  } // в цикле не будут участвовать ключи "password" и "birthdate" так как свойство enumerable false и нельзя пройтись циклом то есть в цикле они уже не участвуют
+
+
+
+  /**
+ * Ваш код тут
+ * func
+ * person1
+ */
 
 
 /**
- * Работа async/ await
- * Создать асинхронную функцию которая возвращает массив случайных чисел
- * и получить эти данные в другой не асинхронной функции
- * дождавшись выполнения асинхронной
+ * ======== 2 ==========
+ * ВАШ КОД ТУТ
  *
+ * Потчи тоже самое что и в 1 задании
+ *
+ * Наследуйте от класса Person два других класса:
+ * 1. Bartender (для этого класса реализуйте метод introduceMyself как в предыдущем задании)
+ * 2. Painter
+ *
+ * Создайте экземпляры дочерних классов
+ * Скопируйте метод introduceMyself класса Bartender в функцию func
+ * вызовете функцию func привязав к контексту экземплра класса Painter
  */
-async function generateArray() {
-    const arr = [53,342,3,235,63,56,546,457]
-    // написать промис-заглушку после выполнения которого выполниться следующая строка кода
-    // await new Promise ...
-    /**
-     * Ваш код тут
-     */
-    return arr //  результат не вернется пока не выполнится промис
-}
 
-function f() {
-    // вызвать асинхронную функцию, и отобразить ее результат
-    /**
-     * Ваш код тут
-     */
-}
+// ФЛАГИ ДЕСКРИПТОРОВ СВОЙСТВ, ГЕТТЕРЫ, СЕТТЕРЫ
 
-f();
+    /**
+     * реализуйте геттер
+     * который выведет строку вида
+     * "Привет я ..name.. Мне ..age.. лет! "
+     * тоесть строка склееная из нескольких значений свойств объекта
+     */
+ /*
+ * 1. Для свойства name
+ * флаг configurable установите false
+ *
+ * 2. Попробуйте теперь изменить значение name
+ * (используйте ваш сеттер)
+ *
+ * 3. Для свойства password
+ * флаг writable установите в false
+ *
+ * 4. Попробуйте теперь просмотреть значение password
+ * Что в итоге произошло? Почему?
+ *
+ * 5. Для свойств password и bithdate
+ * флаг enumerable установите false
+ *
+ * 6. В цикле выведете все свойства
+ * Что получилось? Почему?
+ */
+// вывод свойств User
