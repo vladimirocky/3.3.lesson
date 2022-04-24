@@ -30,29 +30,58 @@ person2.introduceMyself = function () {
     );
 }
 
-//person2.introduceMyself();
+// person2.introduceMyself();
 let func = person2.introduceMyself;
-/**
- * Ваш код тут
- * func
- * person1
- */
+
+person1.introduceMyself = function () {
+    console.log(
+        `Hello! Me name is ${this.name}.
+        I'm ${this.age} years old
+        I'm a ${this.profession}`
+    ); 
+}
+person1.introduceMyself();
 
 
-/**
- * ======== 2 ==========
- * ВАШ КОД ТУТ
- *
- * Потчи тоже самое что и в 1 задании
- *
- * Наследуйте от класса Person два других класса:
- * 1. Bartender (для этого класса реализуйте метод introduceMyself как в предыдущем задании)
- * 2. Painter
- *
- * Создайте экземпляры дочерних классов
- * Скопируйте метод introduceMyself класса Bartender в функцию func
- * вызовете функцию func привязав к контексту экземплра класса Painter
- */
+
+//  * ======== 2 ==========
+//  * ВАШ КОД ТУТ
+ 
+//  * Потчи тоже самое что и в 1 задании
+ 
+//  * Наследуйте от класса Person два других класса:
+//  * 1. Bartender (для этого класса реализуйте метод introduceMyself как в предыдущем задании)
+class Bartender extends Person {
+    constructor (name, age, profession)
+    super(name, age, profession)
+    introduceMyself() {
+        super.introduceMyself()
+    }
+}
+const Bart1 = new Bartender('Alex', 26, 'coach');
+//  * 2. Painter
+class Painter extends Person {
+    constructor (name, age, profession)
+    super(name, age, profession)
+    introduceMyself() {
+        super.introduceMyself()
+    }
+}
+const Paint1 = new Painter('Vadim', 19, 'driver');
+let func1 = Paint1.introduceMyself;
+
+Paint1.introduceMyself = function () {
+    console.log(
+        `Hello! Me name is ${this.name}.
+        I'm ${this.age} years old
+        I'm a ${this.profession}`
+    ); 
+}
+Paint1.introduceMyself();
+//  * Создайте экземпляры дочерних классов
+//  * Скопируйте метод introduceMyself класса Bartender в функцию func
+//  * вызовете функцию func привязав к контексту экземплра класса Painter
+ 
 
 // ФЛАГИ ДЕСКРИПТОРОВ СВОЙСТВ, ГЕТТЕРЫ, СЕТТЕРЫ
 const User = {
@@ -60,39 +89,60 @@ const User = {
     age: 24,
     password: 'root123',
     bithdate: '10.10.1990',
-    /**
-     * допишите сеттер
-     * новое значение свойства name
-     */
+    
+    get fullText() {
+        return `Hi I'm  ${this.name} Me ${this.age} years!`
+    },
     set changeName(newName) {
-        // ваш код тут
+        [this.name] = newName.split(" ");
     }
-    /**
-     * реализуйте геттер
-     * который выведет строку вида
-     * "Привет я ..name.. Мне ..age.. лет! "
-     * тоесть строка склееная из нескольких значений свойств объекта
-     */
-}
+};
+User.changeName = "Vidadi";
+console.log(User.name);
+console.log(User.fullText);
 /**
- * 1. Для свойства name
- * флаг configurable установите false
- *
- * 2. Попробуйте теперь изменить значение name
- * (используйте ваш сеттер)
- *
- * 3. Для свойства password
- * флаг writable установите в false
- *
- * 4. Попробуйте теперь просмотреть значение password
- * Что в итоге произошло? Почему?
- *
- * 5. Для свойств password и bithdate
- * флаг enumerable установите false
- *
- * 6. В цикле выведете все свойства
- * Что получилось? Почему?
+ * допишите сеттер
+ * новое значение свойства name
  */
+/**
+ * реализуйте геттер
+ * который выведет строку вида
+ * "Привет я ..name.. Мне ..age.. лет! "
+ * тоесть строка склееная из нескольких значений свойств объекта
+ */
+
+//  * 1. Для свойства name
+//  * флаг configurable установите false
+ Object.defineProperty(User, 'name', {
+     configurable: false
+ });
+//  * 2. Попробуйте теперь изменить значение name
+//  * (используйте ваш сеттер)
+ User.change = 'Volodya';
+ console.log(User);
+//  * 3. Для свойства password
+//  * флаг writable установите в false
+Object.defineProperty(User, 'password', {
+    writable: false
+})
+//  * 4. Попробуйте теперь просмотреть значение password
+console.log(User.password)
+//  * Что в итоге произошло? Почему?
+// Стало не изменным.Потому-что если false, то свойство только для чтения (нельзя
+//     изменить)
+    
+//  * 5. Для свойств password и bithdate
+//  * флаг enumerable установите false
+ Object.defineProperties(User, {
+     password: {enumerable: false},
+     bithdate: {enumerable: false}
+ })
+//  * 6. В цикле выведете все свойства
+for (let key in User) {
+    console.log(key);
+}
+//  * Что получилось? Почему?
+//  Не вышли ключи password и bithdate потомучто задан флаг enumerable: false
 // вывод свойств User
 for (let key in User) {
     console.log(Object.getOwnPropertyDescriptor(User, key));
