@@ -11,7 +11,7 @@
  * 3. bind
  */
 
-class Person {
+ class Person {
     constructor(name, age, profession) {
         this.name = name;
         this.age = age;
@@ -30,15 +30,49 @@ person2.introduceMyself = function () {
     );
 }
 
-//person2.introduceMyself();
+person2.introduceMyself();
 let func = person2.introduceMyself;
 /**
  * Ваш код тут
  * func
  * person1
  */
+func.call(person1)
+func.apply(person1)
+let bindCompare = func.bind(person1);
+bindCompare()
 
 
+
+class Bartender extends Person {
+    introduceMyself() {
+      
+    }
+}
+let bartender = new Bartender('Alex',27,'Бармен');
+
+
+
+
+class Painter extends Person {
+introduceMyself(){
+
+}
+}
+let painter = new Painter('Sergey', 39, 'Художник')
+let func1 = painter.introduceMyself;
+
+painter.introduceMyself = function () {
+    console.log(
+        `Hello! Me name is ${this.name}.
+        I'm ${this.age} years old
+        I'm a ${this.profession}`
+    ); 
+}
+painter.introduceMyself();
+
+// const personal = [new Person(),new Bartender()];
+// console.log(personal);
 /**
  * ======== 2 ==========
  * ВАШ КОД ТУТ
@@ -64,9 +98,18 @@ const User = {
      * допишите сеттер
      * новое значение свойства name
      */
+    
     set changeName(newName) {
         // ваш код тут
+       
+        this.name = newName
+    },
+    get changeName(){
+        
+     return  `Привет я ${this.name}.
+        Мне ${this.age} года`
     }
+ 
     /**
      * реализуйте геттер
      * который выведет строку вида
@@ -74,13 +117,48 @@ const User = {
      * тоесть строка склееная из нескольких значений свойств объекта
      */
 }
+User.name = 'Roma'
+console.log(User.changeName);
+
+//1
+Object.defineProperty(User,'name',{
+    configurable: false,
+});
+console.log();
+//2
+//Изменить и удалить можно было если бы было значение True, но так как
+//мы сменили значение на False, то изменить не получиться.
+//3
+Object.defineProperty(User, 'password',{
+    writable: false,
+});
+//4 Tак как установив значение writable: false для password у нас оно только для чтения
+//но не более того.
+//5
+Object.defineProperty(User, 'password',{
+    enumerable: false,
+});
+Object.defineProperty(User, 'bithdate',{
+    enumerable: false,
+});
+let password = Object.getOwnPropertyDescriptor(User, 'password');
+console.log(password);
+let bithdate = Object.getOwnPropertyDescriptor(User, 'bithdate');
+console.log(bithdate);
+//6
+// Если бы было знаечение True для enumerable, то можно бы было обойти через цикл,
+// но так как мы установили значение False для passwor и birthdate
+//то через цикл этого сделать нельзя!!!
+
 /**
  * 1. Для свойства name
  * флаг configurable установите false
+ * 
  *
  * 2. Попробуйте теперь изменить значение name
  * (используйте ваш сеттер)
- *
+ * Изменить и удалить можно было если бы было значение True, но так как
+ * мы сменили 
  * 3. Для свойства password
  * флаг writable установите в false
  *
@@ -95,5 +173,5 @@ const User = {
  */
 // вывод свойств User
 for (let key in User) {
-    console.log(Object.getOwnPropertyDescriptor(User, key));
+    console.log(Object.getOwnPropertyDescriptor(User,key));
 }
