@@ -46,7 +46,11 @@ bindCompare()
 
 class Bartender extends Person {
     introduceMyself() {
-      
+        /**
+         * -----------------------------------------------------
+         * надо метод реализовать
+         * -----------------------------------------------------
+         */
     }
 }
 let bartender = new Bartender('Alex',27,'Бармен');
@@ -60,8 +64,18 @@ introduceMyself(){
 }
 }
 let painter = new Painter('Sergey', 39, 'Художник')
+/**
+ * -----------------------------------------------------
+ * скопировать нужно метод класса Bartender
+ * -----------------------------------------------------
+ */
 let func1 = painter.introduceMyself;
 
+/**
+ * -----------------------------------------------------
+ * дял painter реализовывать как раз не требуется метод
+ * -----------------------------------------------------
+ */
 painter.introduceMyself = function () {
     console.log(
         `Hello! Me name is ${this.name}.
@@ -70,6 +84,11 @@ painter.introduceMyself = function () {
     ); 
 }
 painter.introduceMyself();
+/**
+ * -----------------------------------------------------
+ * где call? apply? bind?
+ * -----------------------------------------------------
+ */
 
 // const personal = [new Person(),new Bartender()];
 // console.log(personal);
