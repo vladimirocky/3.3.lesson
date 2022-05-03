@@ -32,12 +32,10 @@ person2.introduceMyself = function () {
 
 //person2.introduceMyself();
 let func = person2.introduceMyself;
-/**
- * Ваш код тут
- * func
- * person1
- */
-
+func.call(person1);
+func.apply(person1);
+let newFunc = func.bind(person1);
+newFunc();
 
 /**
  * ======== 2 ==========
@@ -53,6 +51,29 @@ let func = person2.introduceMyself;
  * Скопируйте метод introduceMyself класса Bartender в функцию func
  * вызовете функцию func привязав к контексту экземплра класса Painter
  */
+class Bartender extends Person {
+    constructor(name,age) {
+        super();
+        this.name = name;
+        this.age = age;
+        this.profession = 'Bartender';
+    }
+}
+class Painter extends Person {
+    constructor(name,age) {
+        super();
+        this.name = name;
+        this.age = age;
+        this.profession = 'Painter';
+    }
+}
+const person3 = new Bartender('Maksim', 21);
+const person4 = new Painter('Andrey', 28);
+person3.introduceMyself = func.bind(person3);
+person3.introduceMyself();
+func = func.bind(person4);
+func();
+
 
 // ФЛАГИ ДЕСКРИПТОРОВ СВОЙСТВ, ГЕТТЕРЫ, СЕТТЕРЫ
 const User = {
@@ -65,15 +86,25 @@ const User = {
      * новое значение свойства name
      */
     set changeName(newName) {
-        // ваш код тут
-    }
+        this.name = newName;
+    },
     /**
      * реализуйте геттер
      * который выведет строку вида
      * "Привет я ..name.. Мне ..age.. лет! "
      * тоесть строка склееная из нескольких значений свойств объекта
      */
+    get changeName() {
+        console.log(`
+Привет, я, ${this.name},
+Мне ${this.age} года.
+        `)
+    }
 }
+User.changeName;
+User.changeName = 'Петя';
+User.changeName;
+
 /**
  * 1. Для свойства name
  * флаг configurable установите false
@@ -93,6 +124,14 @@ const User = {
  * 6. В цикле выведете все свойства
  * Что получилось? Почему?
  */
+Object.defineProperties(User, {
+    name: { configurable: false },
+    password: {writable: false, enumerable: false},
+    bithdate: { enumerable:false },
+})
+
+User.changeName = 'Katya';
+User.password = 'qweasd'
 // вывод свойств User
 for (let key in User) {
     console.log(Object.getOwnPropertyDescriptor(User, key));
