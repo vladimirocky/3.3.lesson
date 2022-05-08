@@ -65,7 +65,11 @@ const User = {
      * новое значение свойства name
      */
     set changeName(newName) {
-        // ваш код тут
+        this.name = newName;
+    },
+
+    get changeName() {
+        return 'Привет я ' + this.name + 'мне ' + this.age;
     }
     /**
      * реализуйте геттер
@@ -73,7 +77,8 @@ const User = {
      * "Привет я ..name.. Мне ..age.. лет! "
      * тоесть строка склееная из нескольких значений свойств объекта
      */
-}
+};
+
 /**
  * 1. Для свойства name
  * флаг configurable установите false
