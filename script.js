@@ -32,12 +32,25 @@ person2.introduceMyself = function () {
 
 //person2.introduceMyself();
 let func = person2.introduceMyself;
+func.call(person1);
+func.apply(person1);
+let fBind = func.bind(person1);
+fBind();
 /**
  * Ваш код тут
  * func
  * person1
  */
+ class Bartender extends Person{
+    /**
+     * -------------------------------------------------------------------------
+     * Тут нужено добавить метод introduceMyself
+     * -------------------------------------------------------------------------
+     */
+};
+const personBartender = new Bartender('Timur',19,'Markovnikov');
 
+func.call(personBartender);
 
 /**
  * ======== 2 ==========
@@ -56,29 +69,53 @@ let func = person2.introduceMyself;
 
 // ФЛАГИ ДЕСКРИПТОРОВ СВОЙСТВ, ГЕТТЕРЫ, СЕТТЕРЫ
 const User = {
-    name: 'Vasya',
-    age: 24,
-    password: 'root123',
-    bithdate: '10.10.1990',
+    name: 'Timur',
+    age: 19,
+    password: '12345ttt',
+    bithdate: '19.03.2003',
     /**
      * допишите сеттер
      * новое значение свойства name
      */
-    set changeName(newName) {
-        this.name = newName;
-    },
 
-    get changeName() {
-        return 'Привет я ' + this.name + 'мне ' + this.age;
+    set changeName(newName) {
+        // ваш код тут
+        this.name = newName;
+
+    },
+    get changeName(){
+        return 'Привет я ' + this.name + " мне " + this.age
     }
-    /**
-     * реализуйте геттер
-     * который выведет строку вида
-     * "Привет я ..name.. Мне ..age.. лет! "
-     * тоесть строка склееная из нескольких значений свойств объекта
-     */
+
 };
 
+User.changeName = ' Alexus ';
+
+Object.defineProperty(User,'name',{
+    configurable : false
+  })
+
+let descrip = Object.getOwnPropertyDescriptor(User,'name');
+console.log(descrip);
+
+Object.defineProperty(User,'password',{
+    writable:false
+})
+
+let descripPassword = Object.getOwnPropertyDescriptor(User,'password');
+
+console.log(descripPassword);
+
+User.password = "new_pass";
+
+console.log(User);
+
+Object.defineProperties(User,{
+    password:{ enumerable:false},
+    bithdate:{enumerable:false}
+   });
+
+console.log("А теперь видим что циклом можно обойти только enumerable");
 /**
  * 1. Для свойства name
  * флаг configurable установите false
