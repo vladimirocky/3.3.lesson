@@ -58,6 +58,12 @@ class Bartender extends Person {
         this.age = age;
         this.profession = 'Bartender';
     }
+
+    /**
+     * ---------------------------------------
+     * introduceMyself по заданию метод класса Bartender
+     * ---------------------------------------
+     */
 }
 class Painter extends Person {
     constructor(name,age) {
@@ -69,6 +75,11 @@ class Painter extends Person {
 }
 const person3 = new Bartender('Maksim', 21);
 const person4 = new Painter('Andrey', 28);
+/**
+ * ---------------------------------------
+ * а не экземпляра класса person3
+ * ---------------------------------------
+ */
 person3.introduceMyself = func.bind(person3);
 person3.introduceMyself();
 func = func.bind(person4);
