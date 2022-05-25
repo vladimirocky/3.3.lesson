@@ -32,11 +32,35 @@ person2.introduceMyself = function () {
 
 //person2.introduceMyself();
 let func = person2.introduceMyself;
+func.call(person1);
+func.apply(person1);
+func.bind(person1);
+
 /**
  * Ваш код тут
  * func
  * person1
  */
+
+
+class Bartender extends Person {
+}
+class Painter extends Person {
+
+}
+const person3 = new Bartender('Tanya', 22);
+const person4 = new Painter('Semen', 32);
+   
+    person3.introduceMyself = function () {
+        console.log(
+            `I'm a ${this.profession}`
+        );
+    }
+
+    let func1 = Bartender.introduceMyself;
+    func.call(person3);
+    func.call(person4);
+
 
 
 /**
@@ -55,7 +79,7 @@ let func = person2.introduceMyself;
  */
 
 // ФЛАГИ ДЕСКРИПТОРОВ СВОЙСТВ, ГЕТТЕРЫ, СЕТТЕРЫ
-const User = {
+const User1 = {
     name: 'Vasya',
     age: 24,
     password: 'root123',
@@ -65,15 +89,36 @@ const User = {
      * новое значение свойства name
      */
     set changeName(newName) {
+        this.name = newName
+        },
         // ваш код тут
+    get helloUser() {
+        return "Привет я " + this.name + ". Мне " + this.age + " лет!"
     }
+}
+console.log(User1.helloUser)
+    
+
     /**
      * реализуйте геттер
      * который выведет строку вида
      * "Привет я ..name.. Мне ..age.. лет! "
      * тоесть строка склееная из нескольких значений свойств объекта
      */
-}
+
+    Object.defineProperty(User1,'name',{
+        configurable: false
+    })
+
+    Object.defineProperty(User1,'password',{
+        writable: false
+    })
+    
+    Object.defineProperties(User1, {
+        password:{enuramble:false},
+        bithdate:{enuramble:false}
+    })
+
 /**
  * 1. Для свойства name
  * флаг configurable установите false
@@ -94,6 +139,7 @@ const User = {
  * Что получилось? Почему?
  */
 // вывод свойств User
-for (let key in User) {
-    console.log(Object.getOwnPropertyDescriptor(User, key));
+for (let key in User1) {
+    console.log(Object.getOwnPropertyDescriptor(User1, key));
 }
+
