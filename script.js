@@ -70,6 +70,7 @@ class Painter extends Person {
 }
 const person3 = new Bartender('Maksim', 21);
 const person4 = new Painter('Andrey', 28);
+person3.introduceMyself = func.bind(person3);
 person3.introduceMyself();
 func = person3.introduceMyself;
 func.call(person4);
