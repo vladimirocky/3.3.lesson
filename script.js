@@ -58,6 +58,7 @@ class Bartender extends Person {
         this.age = age;
         this.profession = 'Bartender';
     }
+    introduceMyself = func.bind(this);
 }
 class Painter extends Person {
     constructor(name,age) {
@@ -69,10 +70,9 @@ class Painter extends Person {
 }
 const person3 = new Bartender('Maksim', 21);
 const person4 = new Painter('Andrey', 28);
-person3.introduceMyself = func.bind(person3);
 person3.introduceMyself();
-func = func.bind(person4);
-func();
+func = person3.introduceMyself;
+func.call(person4);
 
 
 // ФЛАГИ ДЕСКРИПТОРОВ СВОЙСТВ, ГЕТТЕРЫ, СЕТТЕРЫ
