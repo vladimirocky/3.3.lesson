@@ -45,50 +45,48 @@ bindCompare()
 
 
 class Bartender extends Person {
-    introduceMyself() {
-        /**
-         * -----------------------------------------------------
-         * надо метод реализовать
-         * -----------------------------------------------------
-         */
-    }
+    constructor(name, age) {
+        super();
+        this.name = name;
+        this.age = age;
+        this.profession = 'Barthender';
+      }
+      introduceMyself = func.bind(this);
 }
-let bartender = new Bartender('Alex',27,'Бармен');
-
-
-
-
+// let bartender = new Bartender('Alex',27,'Бармен');
 class Painter extends Person {
-introduceMyself(){
+    constructor(name, age) {
+        super();
+        this.name = name;
+        this.age = age;
+        this.profession = 'Painter';
+      }
+}
+const person3 = new Bartender('Jony', 25);
+const person4 = new Painter('Mary', 21);
+person3.introduceMyself = func.bind(person3);
+person3.introduceMyself();
+func = person3.introduceMyself;
+func.call(person4);
 
-}
-}
-let painter = new Painter('Sergey', 39, 'Художник')
-/**
- * -----------------------------------------------------
- * скопировать нужно метод класса Bartender
- * -----------------------------------------------------
- */
-let func1 = painter.introduceMyself;
 
-/**
- * -----------------------------------------------------
- * дял painter реализовывать как раз не требуется метод
- * -----------------------------------------------------
- */
-painter.introduceMyself = function () {
-    console.log(
-        `Hello! Me name is ${this.name}.
-        I'm ${this.age} years old
-        I'm a ${this.profession}`
-    ); 
-}
-painter.introduceMyself();
-/**
- * -----------------------------------------------------
- * где call? apply? bind?
- * -----------------------------------------------------
- */
+
+
+
+
+
+
+// let painter = new Painter('Sergey', 39, 'Художник')
+// let func1 = painter.introduceMyself;
+
+// painter.introduceMyself = function () {
+//     console.log(
+//         `Hello! Me name is ${this.name}.
+//         I'm ${this.age} years old
+//         I'm a ${this.profession}`
+//     ); 
+// }
+// painter.introduceMyself();
 
 // const personal = [new Person(),new Bartender()];
 // console.log(personal);
