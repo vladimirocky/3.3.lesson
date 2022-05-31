@@ -47,6 +47,13 @@ fBind();
      * Тут нужено добавить метод introduceMyself
      * -------------------------------------------------------------------------
      */
+    introduceMyself() {
+        console.log(
+            `Hello! Me name is ${this.name}.
+            I'm ${this.age} years old
+            I'm a ${this.profession}`
+        );
+    }
 };
 const personBartender = new Bartender('Timur',19,'Markovnikov');
 
