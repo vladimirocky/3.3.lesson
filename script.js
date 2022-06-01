@@ -47,6 +47,13 @@ fBind();
      * Тут нужено добавить метод introduceMyself
      * -------------------------------------------------------------------------
      */
+    constructor(name, age) {
+        super();
+        this.name = name;
+        this.age = age;
+        this.profession = 'Barthender';
+    }
+
     introduceMyself() {
         console.log(
             `Hello! Me name is ${this.name}.
@@ -55,10 +62,22 @@ fBind();
         );
     }
 };
-const personBartender = new Bartender('Timur',19,'Markovnikov');
 
-func.call(personBartender);
+class Painter extends Person {
+    constructor(name, age) {
+        super();
+        this.name = name;
+        this.age = age;
+        this.profession = 'Painter';
+    }
+}   
 
+const personBartender = new Bartender('Timur',19,'taxi');
+const personPainter = new Painter('Vitya', 32, 'miner');
+personBartender.introduceMyself = func.bind(personBartender);
+personBartender.introduceMyself();
+let func2 = func.bind(personPainter);
+func2();
 /**
  * ======== 2 ==========
  * ВАШ КОД ТУТ
