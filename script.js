@@ -11,7 +11,7 @@
  * 3. bind
  */
 
-class Person {
+ class Person {
     constructor(name, age, profession) {
         this.name = name;
         this.age = age;
@@ -38,27 +38,41 @@ let fBind = func.bind(person1);
 fBind();
 
 class Bartender extends Person{
+    constructor(name, age) {
+        super();
+        this.name = name;
+        this.age = age;
+        this.profession = 'Barthender';
+    }
+
+    introduceMyself() {
+        console.log(
+            `Hello! Me name is ${this.name}.
+            I'm ${this.age} years old
+            I'm a ${this.profession}`
+        );
+    }
     /**
+     * 
      * -------------------------------------------------------------------------
      * Тут нужено добавить метод introduceMyself
      * -------------------------------------------------------------------------
      */
 };
 const personBartender = new Bartender('Lexa',25,'bartender');
-/**
- * -------------------------------------------------------------------------
- * Сошласно заданию еще нужен класс Painter
- * и экземпляр этого класса
- * -------------------------------------------------------------------------
- */
+class Painter extends Person {
+    constructor(name, age) {
+        super();
+        this.name = name;
+        this.age = age;
+        this.profession = 'Painter';
+    }
+}   
+const personPainter = new Painter('Kiril', 18, 'Painter');
 func.call(personBartender);
-/**
- * -------------------------------------------------------------------------
- * Нужно сначала объявить новую функцию
- * скопировать туда метод из Bartender
- * вызвать функцию в контексте Painter
- * -------------------------------------------------------------------------
- */
+let func2 = func.bind(personPainter);
+func2();
+
 
 
 const User = {
@@ -88,11 +102,6 @@ Object.defineProperty(User,'name',{
     configurable : false
   })
 
-/**
- *  -------------------------------------------------------------------------
- * А вот тут как раз и надо попытаться поменять имя
- *  -------------------------------------------------------------------------
- */
 
 let descrip = Object.getOwnPropertyDescriptor(User,'name');
   console.log(descrip); // проверка
